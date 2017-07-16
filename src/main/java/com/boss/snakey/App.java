@@ -11,10 +11,6 @@ import javax.swing.JPanel;
 import com.boss.snakey.frameworks.Facing;
 import com.boss.snakey.frameworks.FrameManager;
 
-/**
- * Hello world!
- *
- */
 public class App {
 	
 	protected static Facing snakePlay = Facing.EAST;
