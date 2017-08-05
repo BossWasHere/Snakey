@@ -21,7 +21,7 @@ public class FrameManager {
 	
 	public static void openFrame() {
 		JFrame frame = new JFrame("Snake - Length: 1");
-		frame.setSize(SQUARES * PIXEL_PER_SQUARE + 7, SQUARES * PIXEL_PER_SQUARE + 8);
+		frame.setSize(SQUARES * PIXEL_PER_SQUARE + 7, SQUARES * PIXEL_PER_SQUARE + 30);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,18 +38,25 @@ public class FrameManager {
 		blocks = new JPanel[SQUARES][SQUARES];
 		for (int x = 0; x < SQUARES; x++) {
 			for (int y = 0; y < SQUARES; y++) {
-				JPanel template = new JPanel();
-				setFrameEmpty(template);
-				template.setBounds(x * PIXEL_PER_SQUARE, y * PIXEL_PER_SQUARE, PIXEL_PER_SQUARE, PIXEL_PER_SQUARE);
+				JPanel template = makeTemplate(x, y);
 				frame.add(template);
 				blocks[x][y] = template;
 			}
 		}
+		blocks[SQUARES - 1][SQUARES - 1] = makeTemplate(SQUARES - 1, SQUARES - 1);
 		
 		JPanel start = blocks[(int) SQUARES / 2][(int) SQUARES / 2];
 		start.setBackground(Color.GREEN);
 		App.setFront(new Dimension((int) SQUARES / 2, (int) SQUARES / 2));
 		generateRandomGrow();
+	}
+	
+	private static JPanel makeTemplate(int x, int y) {
+		JPanel template = new JPanel();
+		//template.setBorder(new LineBorder(Color.BLUE, 1));	[Debug Use Only]
+		setFrameEmpty(template);
+		template.setBounds(x * PIXEL_PER_SQUARE, y * PIXEL_PER_SQUARE, PIXEL_PER_SQUARE, PIXEL_PER_SQUARE);
+		return template;
 	}
 	
 	public static void reset() {
@@ -81,6 +88,8 @@ public class FrameManager {
 		} while ((x == head.width && y == head.height) || blocks[x][y].getBackground().equals(Color.GREEN));
 		
 		setFrameGrow(blocks[x][y]);
+		App.redX = x;
+		App.redY = y;
 	}
 	
 	public static void generateRandomGrow() {

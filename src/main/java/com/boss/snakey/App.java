@@ -21,6 +21,7 @@ public class App {
 	protected static Dimension snakeFront;
 	public static List<Dimension> path = new ArrayList<Dimension>();
 	public static int length = 0;
+	public static int redX = -1, redY = -1;
 	
 	private static boolean active = true;
 	
@@ -77,7 +78,7 @@ public class App {
 					checkPaths(d);
 					setFront(d);
 					break;
-				case WEST:
+				default:
 					head = FrameManager.blocks[snakeFront.width - 1][snakeFront.height];
 					d = new Dimension(snakeFront.width - 1, snakeFront.height);
 					if (head.getBackground().equals(Color.RED)) {
@@ -87,6 +88,11 @@ public class App {
 					checkPaths(d);
 					setFront(d);
 					break;
+				}
+				if (redX > -1 && redY > -1) {
+					JPanel p = FrameManager.blocks[redX][redY];
+					System.out.println(p.getBackground().toString() + ", " + redX + ", " + redY);
+					if (!p.getBackground().equals(Color.RED)) FrameManager.generateRandomGrow(d);
 				}
 			} catch (Exception e) {
 				FrameManager.reset();
